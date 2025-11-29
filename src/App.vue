@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Button, Card, Typography, Space, Steps } from 'ant-design-vue'
-import { DownloadOutlined, CheckCircleOutlined } from '@ant-design/icons-vue' // 修复：补充导入 CheckCircleOutlined
+import { DownloadOutlined, CheckCircleOutlined } from '@ant-design/icons-vue'
 
 const { Title, Paragraph, Text, Link } = Typography
 const { Step } = Steps
@@ -16,6 +16,34 @@ const handleDownload = () => {
   document.body.removeChild(link)
   console.log('下载已开始，请按照指引安装扩展！')
 }
+
+// 4个功能点
+const featureList = [
+  {
+    title: '一键自动填写',
+    desc: '智能识别表单，点击一次即可完成90%的填写工作，大幅提升投递效率。',
+    src: 'https://placehold.co/800x450/E6F4FF/1890ff?text=Wide+Image+16:9',
+    type: 'wide' 
+  },
+  {
+    title: '多模型切换',
+    desc: '内置多种填写策略，灵活应对不同网站。',
+    src: 'model_change.gif',
+    type: 'narrow' 
+  },
+  {
+    title: '数据隐私安全',
+    desc: '所有数据仅存储在本地，绝不上传云端，全方位保障您的隐私安全。',
+    src: 'https://placehold.co/400x450/E6F4FF/1890ff?text=Narrow+Image',
+    type: 'narrow'
+  },
+  {
+    title: '智能文本补全',
+    desc: '在填写自我评价或项目经历时，提供AI辅助写作与润色建议，让简历更出彩。',
+    src: 'https://placehold.co/800x450/E6F4FF/1890ff?text=Wide+Image+16:9',
+    type: 'wide'
+  }
+]
 
 const versions = [
   {
@@ -38,13 +66,16 @@ const versions = [
 
 <template>
   <div class="app-container">
-    <!-- 流光效果背景 (放在最底层) -->
     <div class="light-flow-effect"></div>
+
+    <!-- 背景装饰球 -->
+    <div class="bg-decoration ball-1"></div>
+    <div class="bg-decoration ball-2"></div>
+    <div class="bg-decoration ball-3"></div> 
 
     <!-- 头部区域 -->
     <header class="header-section">
       <div class="logo-container">
-        <!-- 这里的Logo通常建议加一个占位符，防止加载失败时布局跳动 -->
         <img src="/logo.png" alt="简历自动填写助手" class="app-logo" />
       </div>
       <div class="header-content">
@@ -64,40 +95,40 @@ const versions = [
       </div>
     </header>
 
-    <!-- 主要内容区域 -->
     <main class="main-content">
-      <!-- 插件介绍部分 -->
+      <!-- 核心功能区域 -->
       <section class="section-block intro-section">
-        <Card class="content-card intro-card">
-          <Title :level="2" class="section-title">插件介绍</Title>
-          <Paragraph class="intro-description">
-            简历自动填写助手是一款专为求职者设计的Chrome浏览器扩展，旨在简化在各招聘网站上填写简历的繁琐过程。
-            当您在多个招聘平台投递简历时，是否曾为重复填写个人信息、工作经历和教育背景而感到厌倦？
-            本插件将为您解决这一痛点，让您的求职之旅更加高效顺畅。
+        <div class="section-header">
+           <Title :level="2" class="section-title">核心功能</Title>
+           <Paragraph class="intro-description">
+            告别繁琐的重复填写，体验智能化的求职新方式
           </Paragraph>
-          
-          <div class="features-grid">
-            <Card class="feature-card" hoverable :bordered="false">
-              <h3 class="feature-title">一键自动填写</h3>
-              <p class="feature-description">只需点击一次，即可在各大招聘网站自动填写您的完整简历信息，节省大量时间。</p>
-            </Card>
-            
-            <Card class="feature-card" hoverable :bordered="false">
-              <h3 class="feature-title">多平台支持</h3>
-              <p class="feature-description">支持主流招聘平台，包括智联招聘、前程无忧、拉勾网、BOSS直聘等50+个网站。</p>
-            </Card>
-            
-            <Card class="feature-card" hoverable :bordered="false">
-              <h3 class="feature-title">数据安全保障</h3>
-              <p class="feature-description">所有个人信息仅存储在您的本地浏览器中，不会上传至任何服务器，确保信息安全。</p>
-            </Card>
-            
-            <Card class="feature-card" hoverable :bordered="false">
-              <h3 class="feature-title">自定义模板</h3>
-              <p class="feature-description">支持创建多个简历模板，根据不同的职位需求快速切换，投递更精准。</p>
-            </Card>
+        </div>
+
+        <div class="feature-grid">
+          <div 
+            v-for="(item, index) in featureList" 
+            :key="index" 
+            class="feature-card"
+            :class="{ 
+              'card-wide': index === 0 || index === 3, 
+              'card-narrow': index === 1 || index === 2 
+            }"
+          >
+            <div class="card-text">
+              <h3 class="card-title">{{ item.title }}</h3>
+              <p class="card-desc">{{ item.desc }}</p>
+            </div>
+            <div class="card-visual">
+              <img :src="item.src" :alt="item.title" class="card-img" />
+            </div>
           </div>
-          
+        </div>
+      </section>
+
+      <!-- 统计数据 -->
+      <section class="section-block">
+        <Card class="content-card stats-card" :bordered="false">
           <div class="plugin-stats">
             <div class="stat-item">
               <span class="stat-number">1000+</span>
@@ -119,7 +150,7 @@ const versions = [
         </Card>
       </section>
 
-      <!-- 使用指南部分 -->
+      <!-- 使用指南 (已更新为截图内容) -->
       <section class="section-block guide-section">
         <Card class="content-card guide-card">
           <Title :level="2" class="section-title">使用指南</Title>
@@ -128,6 +159,7 @@ const versions = [
           </Paragraph>
           
           <div class="steps-container">
+            <!-- 步骤 1 -->
             <div class="step-item">
               <div class="step-number">1</div>
               <div class="step-content">
@@ -144,8 +176,10 @@ const versions = [
               </div>
             </div>
             
+            <!-- 连接线 -->
             <div class="step-divider"></div>
             
+            <!-- 步骤 2 -->
             <div class="step-item">
               <div class="step-number">2</div>
               <div class="step-content">
@@ -157,13 +191,18 @@ const versions = [
                     <li>完整填写您的个人基本信息、联系方式</li>
                     <li>添加您的教育背景、工作经历、项目经验</li>
                   </ol>
-                  <p class="tip-text">💡 提示：您可以创建多个简历模板，针对不同类型的职位进行定制。</p>
+                  <!-- 提示框 -->
+                  <div class="tip-text">
+                    💡 提示：您可以创建多个简历模板，针对不同类型的职位进行定制。
+                  </div>
                 </div>
               </div>
             </div>
             
+            <!-- 连接线 -->
             <div class="step-divider"></div>
             
+            <!-- 步骤 3 -->
             <div class="step-item">
               <div class="step-number">3</div>
               <div class="step-content">
@@ -182,31 +221,21 @@ const versions = [
         </Card>
       </section>
 
-      <!-- 版本信息部分 -->
+      <!-- 版本信息 -->
       <section class="section-block version-section">
         <Card class="content-card version-card">
           <Title :level="2" class="section-title">版本信息</Title>
-          <Paragraph class="intro-description">
-            我们持续优化和更新简历自动填写助手，为用户提供更好的使用体验。
-          </Paragraph>
-          
           <div class="version-timeline">
             <div v-for="(version, index) in versions" :key="index" class="version-item">
               <div class="version-header">
                 <div class="version-badge" :class="{ 'latest': index === 0 }">
-                  {{ version.version }}
-                  <span v-if="index === 0" class="latest-badge">最新</span>
+                  {{ version.version }} <span v-if="index === 0" class="latest-badge">最新</span>
                 </div>
                 <div class="version-date">{{ version.date }}</div>
               </div>
-              
               <div class="version-changes">
                 <div class="changes-list">
-                  <div 
-                    v-for="(feature, i) in version.features" 
-                    :key="i" 
-                    class="change-item"
-                  >
+                  <div v-for="(feature, i) in version.features" :key="i" class="change-item">
                     <span class="change-icon"><CheckCircleOutlined /></span>
                     <span class="change-text">{{ feature }}</span>
                   </div>
@@ -218,7 +247,6 @@ const versions = [
       </section>
     </main>
 
-    <!-- 页脚部分 -->
     <footer class="footer-section">
       <Text type="secondary">© 2024 简历自动填写助手 | Chrome浏览器扩展</Text>
     </footer>
@@ -227,38 +255,40 @@ const versions = [
 
 <style scoped>
 /* =========================================
-   1. 基础布局修复 (核心修复点)
+   1. 背景与容器
    ========================================= */
 .app-container {
-  /* 强制重置对齐方式，防止Vue默认的居中样式导致顶部内容不可见 */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-  
   width: 100%;
   min-height: 100vh;
   position: relative;
-  background: linear-gradient(135deg, #e6f4ff 0%, #f0f9ff 50%, #ffffff 100%);
-  overflow-x: hidden; /* 防止水平滚动条 */
+  background: linear-gradient(180deg, #e6f4ff 0%, #f0f7ff 50%, #f4f6f8 100%);
+  overflow-x: hidden;
 }
 
-/* 修复流光效果，确保不遮挡点击 (pointer-events: none) */
+.bg-decoration {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+}
+.ball-1 { width: 600px; height: 600px; background: rgba(24, 144, 255, 0.08); top: -200px; left: -200px; }
+.ball-2 { width: 500px; height: 500px; background: rgba(54, 207, 201, 0.08); bottom: 10%; right: -200px; }
+.ball-3 { width: 400px; height: 400px; background: rgba(24, 144, 255, 0.05); top: 40%; left: -100px; }
+
 .light-flow-effect {
   position: fixed;
   top: 0;
   left: -100%;
   width: 300%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(190, 224, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  animation: lightFlow 10s infinite linear;
-  pointer-events: none; /* 关键：让鼠标点击穿透 */
-  z-index: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+  animation: lightFlow 12s infinite linear;
+  pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes lightFlow {
@@ -266,379 +296,150 @@ const versions = [
   100% { transform: translateX(50%); }
 }
 
-/* =========================================
-   2. 头部样式
-   ========================================= */
-.header-section {
-  width: 100%;
-  padding: 80px 20px 60px; /* PC端保持足够的顶部间距 */
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.app-logo {
-  width: 120px;
-  height: 120px;
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(24, 144, 255, 0.2);
-  transition: transform 0.3s ease;
-  background: #fff; /* 占位背景 */
-}
-
-.app-logo:hover {
-  transform: scale(1.05) rotate(2deg);
-}
-
-.app-title {
-  color: #1890ff !important; /* 强制覆盖AntD颜色 */
-  margin-top: 24px !important;
-  font-weight: 800 !important;
-  font-size: 36px !important;
-  letter-spacing: -0.5px;
-}
-
-.app-description {
-  font-size: 18px;
-  color: #666;
-  max-width: 600px;
-  margin: 16px auto 32px;
-  line-height: 1.6;
-}
-
-.download-button {
-  height: 56px;
-  font-size: 18px;
-  padding: 0 40px;
-  border-radius: 28px;
-  background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
-  border: none;
-  box-shadow: 0 8px 24px rgba(24, 144, 255, 0.35);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-}
-
-.download-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(24, 144, 255, 0.45);
-}
-
-/* =========================================
-   3. 内容区域通用样式
-   ========================================= */
 .main-content {
   width: 100%;
-  max-width: 1100px; /* 限制PC最大宽度 */
-  padding: 0 20px 60px;
+  max-width: 1280px; 
+  padding: 0 24px 60px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-.section-block {
-  margin-bottom: 60px;
-}
-
-/* 通用卡片样式 */
-.content-card {
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-}
-
-/* 标题装饰线 */
-.section-title {
+.header-section {
+  width: 100%;
+  padding: 100px 20px 60px;
   text-align: center;
-  margin-bottom: 30px !important;
   position: relative;
+  z-index: 2;
 }
 
-.section-title::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, #1890ff 0%, #36cfc9 100%);
-  margin: 16px auto 0;
-  border-radius: 2px;
-}
-
-.intro-description {
-  text-align: center;
-  font-size: 16px;
-  line-height: 1.8;
-  color: #555;
-  margin-bottom: 40px !important;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
+.app-logo { width: 120px; height: 120px; border-radius: 24px; box-shadow: 0 10px 40px rgba(24, 144, 255, 0.2); transition: transform 0.3s ease; background: #fff; }
+.app-logo:hover { transform: scale(1.05) rotate(2deg); }
+.app-title { color: #1890ff !important; margin-top: 24px !important; font-weight: 800 !important; font-size: 40px !important; }
+.app-description { font-size: 20px; color: #666; max-width: 700px; margin: 20px auto 32px; line-height: 1.6; }
+.download-button { height: 56px; font-size: 18px; padding: 0 40px; border-radius: 28px; background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%); border: none; box-shadow: 0 8px 24px rgba(24, 144, 255, 0.35); display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; }
+.download-button:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(24, 144, 255, 0.45); }
 
 /* =========================================
-   4. 功能网格 (Features)
+   2. 核心功能区 (宽窄卡片)
    ========================================= */
-.features-grid {
+.section-block { margin-bottom: 80px; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-title::after { content: ''; display: block; width: 60px; height: 4px; background: linear-gradient(90deg, #1890ff 0%, #36cfc9 100%); margin: 16px auto 0; border-radius: 2px; }
+.intro-description { text-align: center; font-size: 16px; color: #666; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+.feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr); 
   gap: 24px;
-  margin-bottom: 40px;
+  width: 100%;
 }
 
 .feature-card {
-  height: 100%;
-  background: #fff;
-  border-radius: 16px;
+  background: #ffffff; 
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-  flex:1;
+  display: flex;
+  flex-direction: column;
 }
 
 .feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px rgba(24, 144, 255, 0.15);
+  border-color: #1890ff;
 }
 
-.feature-title {
-  font-size: 18px;
-  font-weight: 700;
-  color: #1f1f1f;
-  margin-bottom: 12px;
-}
+.card-wide { grid-column: span 2; }
+.card-narrow { grid-column: span 1; }
+.card-text { padding: 32px 32px 20px; }
+.card-title { font-size: 24px; font-weight: 700; color: #1f1f1f; margin-bottom: 12px; }
+.card-desc { font-size: 16px; color: #666; line-height: 1.6; }
+.card-visual { flex: 1; display: flex; align-items: flex-end; justify-content: center; background: linear-gradient(to bottom, #ffffff 0%, #f0f7ff 100%); padding: 20px 30px 0 30px; overflow: hidden; }
+.card-img { width: 100%; height: auto; display: block; transition: transform 0.5s ease; border-radius: 12px 12px 0 0; box-shadow: 0 -8px 24px rgba(24, 144, 255, 0.12); }
+.feature-card:hover .card-img { transform: scale(1.02); }
 
-.feature-description {
-  color: #666;
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* 统计数据 */
-.plugin-stats {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
-  background: linear-gradient(135deg, #f0f9ff 0%, #e6f7ff 100%);
-  border-radius: 16px;
-  padding: 30px 20px;
-  margin-top: 40px;
-}
-
-.stat-item {
-  text-align: center;
-  flex: 1;
-  min-width: 140px;
-}
-
-.stat-number {
-  display: block;
-  font-size: 32px;
-  font-weight: 800;
-  color: #1890ff;
-  font-family: Arial, sans-serif;
-  margin-bottom: 8px;
-}
-
-.stat-label {
-  color: #666;
-  font-size: 14px;
-  font-weight: 500;
+@media (max-width: 900px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .card-wide, .card-narrow { grid-column: span 1; }
+  .main-content { padding: 0 16px 40px; }
 }
 
 /* =========================================
-   5. 步骤指南 (Steps)
+   3. 其他内容样式 (Guide, Stats, Version)
    ========================================= */
-.steps-container {
-  padding: 20px;
+.content-card { 
+  border-radius: 24px; 
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04); 
+  border: 1px solid rgba(255, 255, 255, 0.8); 
+  background: #ffffff; 
 }
 
-.step-item {
-  display: flex;
-  gap: 24px;
-}
+.stats-card { background: linear-gradient(135deg, #ffffff 0%, #f7fcff 100%); }
+.plugin-stats { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px; }
+.stat-item { text-align: center; flex: 1; min-width: 140px; }
+.stat-number { display: block; font-size: 36px; font-weight: 800; color: #1890ff; font-family: Arial, sans-serif; margin-bottom: 4px; }
+.stat-label { color: #666; font-size: 14px; font-weight: 500; }
 
-.step-number {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: 700;
-  box-shadow: 0 8px 20px rgba(24, 144, 255, 0.25);
+/* 步骤条特定样式 - 适配截图 */
+.steps-container { padding: 30px 40px; }
+.step-item { display: flex; gap: 24px; margin-bottom: 0; }
+.step-number { 
+  flex-shrink: 0; 
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%; 
+  background: linear-gradient(135deg, #2db7f5 0%, #1890ff 100%); 
+  color: white; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 24px; 
+  font-weight: 700; 
+  box-shadow: 0 8px 20px rgba(24, 144, 255, 0.25); 
+  z-index: 2;
+  position: relative;
 }
+.step-content { flex: 1; padding-top: 5px; }
+.step-title { font-size: 20px; font-weight: 700; color: #1f1f1f; margin-bottom: 15px; }
+.step-description { color: #555; line-height: 1.8; font-size: 15px; }
+.step-description ol { padding-left: 20px; margin: 0; list-style-type: decimal; }
+.step-description li { margin-bottom: 8px; }
+.step-description code { background: #fff0f6; border: 1px solid #ffadd2; padding: 2px 6px; border-radius: 4px; color: #c41d7f; font-family: monospace; font-size: 13px; }
 
-.step-content {
-  flex: 1;
-}
-
-.step-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f1f1f;
-  margin-bottom: 12px;
-}
-
-.step-description ol {
-  padding-left: 20px;
-  margin: 0;
-  color: #555;
-  line-height: 1.8;
-}
-
-.step-description li {
-  margin-bottom: 8px;
-}
-
-.step-description code {
-  background: #f5f5f5;
-  border: 1px solid #d9d9d9;
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: #eb2f96;
-  font-family: monospace;
-}
-
+/* 提示框样式 */
 .tip-text {
   background: #e6f7ff;
   border: 1px solid #91d5ff;
-  padding: 12px 16px;
+  padding: 16px 20px;
   border-radius: 8px;
-  margin-top: 16px;
+  margin-top: 15px;
   color: #0050b3;
   font-size: 14px;
-}
-
-.step-divider {
-  width: 2px;
-  height: 40px;
-  background: #e8e8e8;
-  margin: 8px 0 8px 23px; /* 对齐圆圈中心 */
-}
-
-/* =========================================
-   6. 版本历史 (Timeline)
-   ========================================= */
-.version-timeline {
-  padding: 10px 20px;
-}
-
-.version-item {
-  padding-bottom: 30px;
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 30px;
-}
-
-.version-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.version-header {
+  font-weight: 500;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.version-badge {
-  background: #f0f2f5;
-  color: #595959;
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-weight: 600;
-  display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-.version-badge.latest {
-  background: #e6f7ff;
-  color: #1890ff;
-  border: 1px solid #91d5ff;
+/* 垂直连接线样式 */
+.step-divider { 
+  width: 2px; 
+  height: 50px; 
+  background: #e8e8e8; 
+  margin: 5px 0 5px 24px; /* 对齐圆圈中心 */
 }
 
-.latest-badge {
-  background: #1890ff;
-  color: white;
-  font-size: 12px;
-  padding: 1px 6px;
-  border-radius: 4px;
-  line-height: 1.2;
-}
-
-.version-date {
-  color: #999;
-  font-size: 14px;
-}
-
-.change-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 8px;
-  line-height: 1.6;
-  color: #555;
-}
-
-.change-icon {
-  color: #52c41a;
-  margin-top: 3px;
-}
-
-/* =========================================
-   7. Footer
-   ========================================= */
-.footer-section {
-  padding: 0 20px 40px;
-  text-align: center;
-  color: #999;
-  position: relative;
-  z-index: 1;
-}
-
-/* =========================================
-   8. 响应式适配
-   ========================================= */
-@media (max-width: 768px) {
-  .app-title {
-    font-size: 28px !important;
-  }
-  
-  .header-section {
-    padding-top: 40px;
-  }
-  
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .plugin-stats {
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .step-item {
-    flex-direction: column;
-    gap: 12px;
-  }
-  
-  .step-divider {
-    display: none;
-  }
-  
-  .version-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
+/* 版本信息样式 */
+.version-timeline { padding: 10px 20px; }
+.version-item { padding-bottom: 30px; border-bottom: 1px solid #f0f0f0; margin-bottom: 30px; }
+.version-item:last-child { border-bottom: none; margin-bottom: 0; }
+.version-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.version-badge { background: #f0f2f5; color: #595959; padding: 4px 12px; border-radius: 100px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+.version-badge.latest { background: #e6f7ff; color: #1890ff; border: 1px solid #91d5ff; }
+.latest-badge { background: #1890ff; color: white; font-size: 12px; padding: 1px 6px; border-radius: 4px; }
+.change-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; line-height: 1.6; color: #555; }
+.change-icon { color: #52c41a; margin-top: 3px; }
+.footer-section { padding: 0 20px 40px; text-align: center; color: #999; position: relative; z-index: 2; }
 </style>
