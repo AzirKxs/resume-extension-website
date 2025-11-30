@@ -135,11 +135,11 @@ onUnmounted(() => {
   })
 })
 
-const downloadUrl = '/download/super_resume_1512.zip'
+const downloadUrl = '/download/super_resume1512.zip'
 const handleDownload = () => {
   const link = document.createElement('a')
   link.href = downloadUrl
-  link.download = 'super_resume_1512.zip'
+  link.download = 'super_resume1512.zip'
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
@@ -181,7 +181,7 @@ const featureList = [
 
 const versions = [
   {
-    version: '1.2.0',
+    version: '1.0.0',
     date: '2025-11-30',
     features: ['支持更多招聘网站', '优化自动填写算法']
   }
